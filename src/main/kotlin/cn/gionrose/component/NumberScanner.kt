@@ -37,8 +37,8 @@ class NumberScanner: AbstractScanner() {
             Feature_10W -> { repeat(count) {
                 Thread.sleep(300)
                 val result = FeatureRequest.postCostGold10W()
-                if (result)
-                    println ("成功增加 10w  [第 $it 次]")
+                if (result != null)
+                    println ("成功增加 10w 当前金币 $result [第 $it 次]")
             }
                 root.loop()
             }
@@ -46,8 +46,8 @@ class NumberScanner: AbstractScanner() {
             Feature_100W -> { repeat(count) {
                 Thread.sleep(300)
                 val result = FeatureRequest.postCostGold100W()
-                if (result)
-                    println ("成功增加 100w  [第 $it 次]")
+                if (result != null)
+                    println ("成功增加 100w 当前金币 $result [第 $it 次]")
             }
                 root.loop()
             }

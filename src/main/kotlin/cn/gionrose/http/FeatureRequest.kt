@@ -50,7 +50,7 @@ object FeatureRequest {
                 }
 
                 (temp["guidsv4"] as MutableList<String>).addAll((bodyMap["guidsv4"] as List<String>))
-                ((temp["settlement"] as MutableMap<String, Any?>)["items"] as MutableList<Any?>).addAll((bodyMap["settlement"] as Map<String, Any?>)["items"] as List<Any?>)
+                ((temp["settlementv2"] as MutableMap<String, Any?>)["items"] as MutableList<Any?>).addAll((bodyMap["settlementv2"] as Map<String, Any?>)["items"] as List<Any?>)
 
                 val totalCount = (temp["guidsv4"] as List<String>).size
                 currentCount = totalCount
@@ -60,7 +60,7 @@ object FeatureRequest {
                     if (currentCount != count)
                     {
                         (temp["guidsv4"] as MutableList<String>).subList(0, currentCount - count).clear()
-                        ((temp["settlement"] as MutableMap<String, Any?>)["items"] as MutableList<Any?>).subList(0, currentCount - count).clear()
+                        ((temp["settlementv2"] as MutableMap<String, Any?>)["items"] as MutableList<Any?>).subList(0, currentCount - count).clear()
                     }
 
                     temp.forEach{ (k, v) ->
@@ -99,7 +99,7 @@ object FeatureRequest {
 
     private fun spawnCard (guids: List<String>, sceneAreaType: Int, cardId: String, revision: Int): String
     {
-        val card = "{\"guidsv4\":[],\"settlement\":{\"sceneAreaType\":$sceneAreaType,\"stageType\":4,\"items\":[]},\"revision\":\"\",\"index\"=${randomIndex()}}"
+        val card = "{\"guidsv4\":[],\"settlementv2\":{\"sceneAreaType\":$sceneAreaType,\"stageType\":4,\"items\":[]},\"revision\":\"\",\"index\"=${randomIndex()}}"
         val item = "{\"id\":\"CARD\",\"itemId\":\"\",\"owner\":\"00000000-0000-0000-0000-000000000000\",\"type\":128,\"rate\":0,\"pay_method\":3,\"price\":0,\"season\":0,\"dict_nested\":{\"card_id\":\"\"}}"
 
         val itemMap = item.parseMapFromJson() as MutableMap<String, Any?>
@@ -115,7 +115,7 @@ object FeatureRequest {
         }
 
         cardMap["guidsv4"] = guids
-        (cardMap["settlement"] as MutableMap<String, Any?>)["items"] = items
+        (cardMap["settlementv2"] as MutableMap<String, Any?>)["items"] = items
         cardMap["revision"] = revision
 
         return cardMap.toJson()
@@ -123,7 +123,7 @@ object FeatureRequest {
 
     private fun spawnStone (guids: List<String>, sceneAreaType: Int, id: String, jewelType: String, revision: Int): String
     {
-        val stone = "{\"guidsv4\":[],\"settlement\":{\"sceneAreaType\":$sceneAreaType,\"stageType\":4,\"items\":[]},\"revision\":\"\",\"index\"=${randomIndex()}}"
+        val stone = "{\"guidsv4\":[],\"settlementv2\":{\"sceneAreaType\":$sceneAreaType,\"stageType\":4,\"items\":[]},\"revision\":\"\",\"index\"=${randomIndex()}}"
         val item = "{\"id\":\"CARD\",\"itemId\":\"\",\"owner\":\"00000000-0000-0000-0000-000000000000\",\"type\":512,\"rate\":3,\"pay_method\":3,\"price\":500,\"season\":0,\"dict_nested\":{\"_jewelType\":\"\"}}"
 
         val itemMap = item.parseMapFromJson() as MutableMap<String, Any?>
@@ -139,29 +139,29 @@ object FeatureRequest {
             items.add(temp)
         }
         stoneMap["guidsv4"] = guids
-        (stoneMap["settlement"] as MutableMap<String, Any?>)["items"] = items
+        (stoneMap["settlementv2"] as MutableMap<String, Any?>)["items"] = items
         stoneMap["revision"] = revision
 
         return stoneMap.toJson()
     }
 
-    fun postCostGold10W (): Boolean
+    fun postCostGold10W (): Any?
     {
         val url = "https://api.soulknight-prequel.chillyroom.com/Package/CostGold"
-        val body = "{\"golds\":[5],\"cost\":25}"
+        val body = "{\"golds\":[999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999],\"cost\":25}"
         val result = BasePost.sendHttpPost(url,body).parseMapFromJson()["gold"]
 
-        result?.let { return true }
-        return false
+        result?.let { return result }
+        return null
     }
-    fun postCostGold100W (): Boolean
+    fun postCostGold100W (): Any?
     {
         val url = "https://api.soulknight-prequel.chillyroom.com/Package/CostGold"
-        val body = "{\"golds\":[5],\"cost\":25}"
+        val body = "{\"golds\":[20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000],\"cost\":25}"
         val result = BasePost.sendHttpPost(url,body).parseMapFromJson()["gold"]
 
-        result?.let { return true }
-        return false
+        result?.let { return result }
+        return null
     }
     private fun postRevision (): Int
     {
