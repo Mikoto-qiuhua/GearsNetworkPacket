@@ -15,13 +15,25 @@ object ServerNameScanner : AbstractScanner(){
         ServerType.idOf(answer)?.let {
             if (!time())
             {
+                when (answer)
+                {
+                    "2", "3", "4"-> {
+                        println()
+                        println("试用版不含此功能")
+                        println()
+                        loop()
+                    }
+                }
+
                 chooseResult = it.serverName
                 isEnd = true
             }else
             {
                 when (answer)
                 {
-                    "1"-> loop()
+                    "1"-> {
+                        loop()
+                    }
                     "2", "3", "4"-> {
                         println()
                         println("试用版不含此功能")

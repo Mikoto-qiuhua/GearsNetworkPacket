@@ -76,7 +76,7 @@ object ItemTypeScanner: AbstractScanner ()
         if (itemCategory == ItemCategoryScanner.ItemCategory.STONE)
         {
             if (isSuccess)
-                println ("成功刷出")
+                println ("成功刷出, 并存入仓库")
             else println("失败... (请查看接口是否可用)")
 
             root.loop()
@@ -86,6 +86,12 @@ object ItemTypeScanner: AbstractScanner ()
     fun passed (executeCount: Int)
     {
         this.executeCount = executeCount
+    }
+
+    override fun isOk(input: String): Boolean {
+        val result = super.isOk(input)
+        println ("请稍等...")
+        return result
     }
 
     enum class StoneType (val chineseName: String, val typeName: String, val id: String, val stoneId: String)

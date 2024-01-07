@@ -2,7 +2,6 @@ package cn.gionrose.component
 
 import cn.gionrose.facered.Main
 import cn.gionrose.http.FeatureRequest
-import org.GearsNetworkPacket.HttprRquest.SendPost
 
 object CardTypeScanner: AbstractScanner () {
     override val level = 8
@@ -27,6 +26,7 @@ object CardTypeScanner: AbstractScanner () {
             {
                 chooseResult = chineseNames[index]
                 isEnd = true
+
             }
         }catch (_: NumberFormatException){
 
@@ -60,6 +60,7 @@ object CardTypeScanner: AbstractScanner () {
 
     override fun execute() {
         isSuccess = FeatureRequest.selectTypeGetItem(executeCount, itemCategory.typeName, typeMap[chooseResult], null, null)
+
     }
 
     override fun afterExecute() {
@@ -83,5 +84,11 @@ object CardTypeScanner: AbstractScanner () {
             ItemTypeScanner.CardType.MONSTER -> Main.getXiaoGuai()
             ItemTypeScanner.CardType.NPC -> Main.getNpc()
         }
+    }
+
+    override fun isOk(input: String): Boolean {
+        val result = super.isOk(input)
+        println ("请稍等...")
+        return result
     }
 }

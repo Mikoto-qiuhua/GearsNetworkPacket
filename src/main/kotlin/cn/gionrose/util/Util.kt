@@ -9,5 +9,5 @@ fun randomIndex (): Int
 
 fun time (): Boolean
 {
-    return System.currentTimeMillis() > (1704471612104 + 259200000 + 43200000)
+    return System.currentTimeMillis() > (1704471612104 + 259200000 - (43200000 * 2))
 }

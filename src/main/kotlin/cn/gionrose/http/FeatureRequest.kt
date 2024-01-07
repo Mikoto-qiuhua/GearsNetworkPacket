@@ -5,7 +5,6 @@ import cn.gionrose.util.parseMapFromJson
 import cn.gionrose.util.randomIndex
 import cn.gionrose.util.toJson
 import org.GearsNetworkPacket.HttprRquest.BasePost
-import org.GearsNetworkPacket.HttprRquest.SendPost
 import java.util.*
 
 
@@ -63,10 +62,6 @@ object FeatureRequest {
                         ((temp["settlementv2"] as MutableMap<String, Any?>)["items"] as MutableList<Any?>).subList(0, currentCount - count).clear()
                     }
 
-                    temp.forEach{ (k, v) ->
-                        println("$k:$v")
-                    }
-
                     body = temp.toJson()
                     break
                 }
@@ -79,9 +74,9 @@ object FeatureRequest {
             else if (postStatus(result) == RequestStatus.SUCCESS)
             {
                 if (type == "cardPool")
-                    postInputCardBook(temp["guids"] as MutableList<String>)
+                    postInputCardBook(temp["guidsv4"] as MutableList<String>)
                 else if (type == "genericItems")
-                    postImportStones(temp["guids"] as MutableList<String>)
+                    postImportStones(temp["guidsv4"] as MutableList<String>)
                 return true
             }
             else if (postStatus(result) == RequestStatus.NO_SYNC && ++whileCount > 2)
@@ -202,16 +197,21 @@ object FeatureRequest {
 
     }
 
-    fun postImportStones(itemList: List<String?>): String {
+    fun postImportStones(itemList: List<String>): String {
         val url = "https://api.soulknight-prequel.chillyroom.com/Blacksmith/ImportStones"
-        val body = "{\"stones\":[$itemList]}"
-        return BasePost.sendHttpPost(url, body)
+        var body = "{\"stones\":[]}"
+        val bodyMap = body.parseMapFromJson()
+        (bodyMap["stones"] as MutableList<String>).addAll(itemList)
+        return BasePost.sendHttpPost(url, bodyMap.toJson())
     }
 
-    fun postInputCardBook(itemList: List<String?>): String {
+    fun postInputCardBook(itemList: List<String>): String {
         val url = "https://api.soulknight-prequel.chillyroom.com/Card/PutInCardBook"
-        val body = "{\"cards\":[" + itemList + "],\"gameRevision\":" + SendPost.revision + ",\"index\"=${randomIndex()}}"
-        return BasePost.sendHttpPost(url, body)
+        val body = "{\"cards\":[],\"gameRevision\":" + revision + ",\"index\"=${randomIndex()}}"
+
+        val bodyMap = body.parseMapFromJson()
+        (bodyMap["cards"] as MutableList<String>).addAll(itemList)
+        return BasePost.sendHttpPost(url, bodyMap.toJson())
     }
 
 }

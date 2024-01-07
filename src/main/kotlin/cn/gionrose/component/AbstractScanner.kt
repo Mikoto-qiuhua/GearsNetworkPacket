@@ -68,15 +68,3 @@ abstract class AbstractScanner {
 
 
 }
-
-
-
-
-
-
-
-
-fun main ()
-{
-    ServerNameScanner.loop()
-}
